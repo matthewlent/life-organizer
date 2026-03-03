@@ -1,0 +1,42 @@
+# Configuration (contains secrets)
+config.py
+
+# Credentials and tokens (NEVER commit these)
+client_secret*.json
+gmail_token.json
+service_account*.json
+*.pem
+*.key
+.env
+
+# Database
+*.db
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+ENV/
+.venv/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
