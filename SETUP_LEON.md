@@ -1,328 +1,347 @@
-# Setup Guide for Leon
+# Life Organizer Setup Guide for Leon
 
-This guide will walk you through setting up the Life Organizer project from scratch on your Mac, using Claude Code to help with configuration.
-
-## Prerequisites
-
-- macOS (for iMessage integration)
-- A Google Workspace account (bracely.ai)
-- About 30 minutes for initial setup
+This guide assumes you've never used Terminal before. Follow each step exactly.
 
 ---
 
-## Step 1: Install Homebrew (if not already installed)
+## Part 1: Opening Terminal
 
-Open Terminal and run:
+**Terminal** is an app on your Mac that lets you type commands. Here's how to open it:
+
+1. Press **Command (⌘) + Space** to open Spotlight search
+2. Type **Terminal**
+3. Press **Enter**
+
+A white or black window will open with a blinking cursor. This is Terminal.
+
+**Tip:** Right-click the Terminal icon in your Dock and select "Options → Keep in Dock" so you can find it easily later.
+
+---
+
+## Part 2: Install Homebrew
+
+Homebrew is a tool that helps you install other tools. Copy and paste this command into Terminal and press Enter:
 
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
-Follow the prompts. After installation, run the commands it shows to add Homebrew to your PATH.
+**What will happen:**
+- It will ask for your Mac password (the one you use to log in)
+- When you type your password, you won't see any characters appear - that's normal, just type it and press Enter
+- It will take a few minutes to install
+- Follow any instructions it shows at the end
+
+**Important:** After installation, it may show some commands to run. They look like this:
+```bash
+echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
+eval "$(/opt/homebrew/bin/brew shellenv)"
+```
+
+If you see these, copy and paste each line into Terminal and press Enter.
 
 ---
 
-## Step 2: Install Git and GitHub CLI
+## Part 3: Install Required Tools
+
+Now install the tools you need. Copy and paste each command, one at a time, pressing Enter after each:
 
 ```bash
-# Install git and GitHub CLI
-brew install git gh
+brew install git
+```
 
-# Authenticate with GitHub
+Wait for it to finish, then:
+
+```bash
+brew install gh
+```
+
+Wait for it to finish, then:
+
+```bash
+brew install python@3.11
+```
+
+Wait for it to finish, then:
+
+```bash
+brew install node
+```
+
+---
+
+## Part 4: Log into GitHub
+
+GitHub is where the code is stored. Run this command:
+
+```bash
 gh auth login
 ```
 
-When prompted:
-- Select **GitHub.com**
-- Select **HTTPS**
-- Select **Login with a web browser**
-- Copy the code shown and press Enter
-- Complete authentication in your browser
+You'll see a series of questions. Here's what to select:
+
+1. **"What account do you want to log into?"**
+   - Use arrow keys to select **GitHub.com**
+   - Press Enter
+
+2. **"What is your preferred protocol?"**
+   - Select **HTTPS**
+   - Press Enter
+
+3. **"Authenticate Git with your GitHub credentials?"**
+   - Select **Yes**
+   - Press Enter
+
+4. **"How would you like to authenticate?"**
+   - Select **Login with a web browser**
+   - Press Enter
+
+5. It will show a code like `XXXX-XXXX`
+   - Copy this code
+   - Press Enter to open your browser
+   - Paste the code on the GitHub website
+   - Click "Authorize"
+
+When you see "Authentication complete" in Terminal, you're done!
 
 ---
 
-## Step 3: Install Python 3
+## Part 5: Install Claude Code
+
+Claude Code is the AI assistant that will help you. Run:
 
 ```bash
-# Install Python 3
-brew install python@3.11
-
-# Verify installation
-python3 --version
+npm install -g @anthropic-ai/claude-code
 ```
 
----
-
-## Step 4: Install Claude Code
-
-```bash
-# Install Claude Code globally
-npm install -g @anthropic-ai/claude-code
-
-# Or if you don't have npm, install Node.js first:
-brew install node
-npm install -g @anthropic-ai/claude-code
-```
+This may take a minute. When it's done, you'll see your cursor again.
 
 ---
 
-## Step 5: Clone the Repository
+## Part 6: Download the Project
+
+Create a folder for your projects and download the code:
 
 ```bash
-# Create a Development folder (if you don't have one)
 mkdir -p ~/Development
+```
+
+```bash
 cd ~/Development
+```
 
-# Clone the repo
+```bash
 gh repo clone matthewlent/life-organizer
+```
 
-# Enter the directory
+```bash
 cd life-organizer
 ```
 
 ---
 
-## Step 6: Set Up Python Environment
+## Part 7: Set Up Python
+
+Run these commands one at a time:
 
 ```bash
-# Create virtual environment
 python3 -m venv venv
+```
 
-# Activate it
+```bash
 source venv/bin/activate
+```
 
-# Install dependencies
+You should now see `(venv)` at the beginning of your Terminal line. This means you're in the project's Python environment.
+
+```bash
 pip install -r requirements.txt
 ```
 
+This installs the required Python packages. It may take a minute.
+
 ---
 
-## Step 7: Launch Claude Code for Setup
+## Part 8: Enable iMessage Access
 
-Now let Claude Code help you set up the Google integrations:
+For the app to read your iMessages, you need to give Terminal permission:
 
+1. Click the **Apple menu ()** in the top-left corner
+2. Click **System Settings**
+3. Click **Privacy & Security** in the left sidebar
+4. Scroll down and click **Full Disk Access**
+5. Click the **+** button
+6. Navigate to **Applications → Utilities → Terminal**
+7. Select Terminal and click **Open**
+8. Toggle the switch ON for Terminal
+9. **Quit Terminal completely** (Command+Q)
+10. **Reopen Terminal**
+
+---
+
+## Part 9: Launch Claude Code
+
+Now let's have Claude Code help you set up the Google services:
+
+1. Open Terminal (if not already open)
+
+2. Navigate to the project folder:
 ```bash
-# Make sure you're in the project directory
 cd ~/Development/life-organizer
+```
 
-# Launch Claude Code
+3. Activate the Python environment:
+```bash
+source venv/bin/activate
+```
+
+4. Launch Claude Code:
+```bash
 claude
 ```
 
-Once Claude Code is running, say:
+5. When Claude Code starts, copy and paste this message to it:
 
-> "Help me set up this Life Organizer project. I need to:
-> 1. Create a Google Cloud project for bracely.ai (my Google Workspace)
-> 2. Enable Gmail, Sheets, and Calendar APIs
-> 3. Create OAuth2 credentials for the desktop app
-> 4. Create a service account for Sheets access
-> 5. Create a new Google Sheet with the required tabs
-> 6. Configure config.py with my credentials
-> 7. Test the authentication"
+```
+Hi Claude! I'm Leon and I need help setting up this Life Organizer project.
 
-Claude Code will guide you through each step interactively.
+I'm using Google Workspace with bracely.ai as my domain.
 
----
+Please help me step by step to:
+1. Create a Google Cloud project
+2. Enable the Gmail, Sheets, and Calendar APIs
+3. Create OAuth2 credentials (Desktop app type)
+4. Create a service account for Sheets
+5. Create a Google Sheet with the required tabs (To-Do, Projects, Relationships, etc.)
+6. Save the credential files to this project folder
+7. Create my config.py file with the correct paths
+8. Run the Gmail authentication
+9. Test that everything works
 
-## Step 8: Google Cloud Setup (Overview)
-
-Claude Code will help, but here's what you'll be doing:
-
-### 8.1 Create Google Cloud Project
-1. Go to [console.cloud.google.com](https://console.cloud.google.com)
-2. Sign in with your bracely.ai account
-3. Create a new project (e.g., "Life Organizer")
-
-### 8.2 Enable APIs
-Enable these APIs in your project:
-- Gmail API
-- Google Sheets API
-- Google Calendar API
-- People API (for contacts)
-
-### 8.3 Create OAuth2 Credentials
-1. Go to APIs & Services → Credentials
-2. Create Credentials → OAuth client ID
-3. Application type: **Desktop app**
-4. Download the JSON file
-5. Save as `client_secret.json` in the project folder
-
-### 8.4 Create Service Account (for Sheets)
-1. Go to APIs & Services → Credentials
-2. Create Credentials → Service Account
-3. Download the JSON key
-4. Save as `service_account.json` in the project folder
-
-### 8.5 Create Google Sheet
-1. Create a new Google Sheet
-2. Name it "Life Organizer"
-3. Share it with the service account email (ends in `@*.iam.gserviceaccount.com`)
-4. Copy the Sheet ID from the URL
-
----
-
-## Step 9: Configure the Project
-
-Copy the example config and edit it:
-
-```bash
-cp config.example.py config.py
+Please go slowly and wait for me to complete each step before moving on.
 ```
 
-Then edit `config.py` with your values:
-
-```python
-SHEET_ID = 'your-sheet-id-from-url'
-SERVICE_ACCOUNT_FILE = '/Users/leon/Development/life-organizer/service_account.json'
-CLIENT_SECRET_FILE = '/Users/leon/Development/life-organizer/client_secret.json'
-```
+Claude Code will then guide you through each step interactively!
 
 ---
 
-## Step 10: Authenticate with Gmail
+## Part 10: What Claude Code Will Help You Do
 
+Here's an overview of what you'll be setting up (Claude will guide you through the details):
+
+### Google Cloud Project
+- Go to console.cloud.google.com
+- Create a new project called "Life Organizer"
+- Enable APIs (Gmail, Sheets, Calendar)
+
+### Credentials
+- Create an "OAuth 2.0 Client ID" (for Gmail access)
+- Create a "Service Account" (for Sheets access)
+- Download both as JSON files
+
+### Google Sheet
+- Create a new Google Sheet
+- Share it with the service account
+- Add tabs: To-Do, Projects, Relationships, Questions, Processing Log, Dry Run
+
+### Config File
+- Create config.py with your settings
+- Run the authentication
+- Test everything works
+
+---
+
+## Part 11: Daily Usage (After Setup)
+
+Once everything is set up, here's how to use it day to day:
+
+### Open the project:
 ```bash
-# Make sure venv is activated
+cd ~/Development/life-organizer
 source venv/bin/activate
-
-# Run authentication
-python auth_gmail.py
 ```
 
-A browser window will open. Log in with your bracely.ai account and grant permissions.
-
----
-
-## Step 11: Enable iMessage Access
-
-1. Open **System Settings**
-2. Go to **Privacy & Security → Full Disk Access**
-3. Click **+** and add **Terminal** (or iTerm if you use that)
-4. Restart Terminal
-
-Test it:
+### Preview what the system would do (safe, no changes):
 ```bash
-python imessage_parser.py --days=7
+python dry_run.py 50 30
+```
+This looks at 50 emails from the last 30 days.
+
+### Check your iMessages for items needing response:
+```bash
+python imessage_parser.py --days=14
 ```
 
----
-
-## Step 12: Test the Setup
-
+### Run the full system (dry run first!):
 ```bash
-# Run a dry run to test everything
-python dry_run.py 10 7
+python nightly.py
 ```
 
-This will classify 10 emails from the last 7 days and log results to your Google Sheet.
-
----
-
-## Step 13: Commit Your Configuration
-
-Your credential files are already in `.gitignore`, so they won't be committed. But you can commit any customizations to `classify.py` or other files:
-
+### Run with actual changes (be careful!):
 ```bash
-# Check what's changed
-git status
-
-# If you've customized classify.py with your own patterns:
-git add classify.py
-
-# Commit
-git commit -m "Add custom classification patterns for bracely.ai"
-
-# Push to your own fork (optional - create fork first)
-gh repo fork --clone=false
-git push origin main
+python nightly.py --live
 ```
 
----
-
-## Step 14: Set Up Nightly Automation (Optional)
-
-Edit the plist file to use your paths:
-
+### Get help from Claude Code anytime:
 ```bash
-# Edit the plist
-nano com.life-organizer.nightly.plist
-```
-
-Replace `YOUR_USERNAME` with `leon` (or your actual username).
-
-Then install:
-
-```bash
-# Copy to LaunchAgents
-cp com.life-organizer.nightly.plist ~/Library/LaunchAgents/
-
-# Load it
-launchctl load ~/Library/LaunchAgents/com.life-organizer.nightly.plist
-
-# Check status
-launchctl list | grep life-organizer
+claude
 ```
 
 ---
 
 ## Troubleshooting
 
+### "command not found: brew"
+Close Terminal, reopen it, and try the Homebrew installation command again.
+
+### "command not found: gh"
+Run: `brew install gh`
+
+### "Permission denied" or "Access denied" for iMessages
+Make sure you completed Part 8 (Full Disk Access) and restarted Terminal.
+
+### Password not appearing when typing
+This is normal! Mac hides passwords. Just type it and press Enter.
+
 ### "Token has been expired or revoked"
+Run these commands:
 ```bash
+cd ~/Development/life-organizer
 rm gmail_token.json
+source venv/bin/activate
 python auth_gmail.py
 ```
 
-### "Access denied" for iMessage
-Make sure Terminal has Full Disk Access (Step 11).
-
-### "Service account file not found"
-Check the path in `config.py` matches where you saved the file.
-
-### Google Sheet not updating
-Make sure you shared the sheet with the service account email.
-
----
-
-## Daily Usage
-
+### Something else not working?
+Launch Claude Code and describe what's happening:
 ```bash
-# Activate environment
 cd ~/Development/life-organizer
 source venv/bin/activate
-
-# Dry run (preview)
-python dry_run.py 50 30
-
-# Check iMessages
-python imessage_parser.py --days=14
-
-# Full nightly run (dry)
-python nightly.py
-
-# Full nightly run (live - makes changes)
-python nightly.py --live
-```
-
----
-
-## Getting Help
-
-In the project directory, run:
-```bash
 claude
 ```
 
-Then ask Claude Code anything about the project!
+Then tell Claude what error you're seeing.
 
 ---
 
-## Files You'll Create
+## Quick Reference Card
 
-| File | Purpose | Committed to Git? |
-|------|---------|-------------------|
-| `config.py` | Your personal configuration | No (gitignored) |
-| `client_secret.json` | OAuth2 credentials | No (gitignored) |
-| `service_account.json` | Sheets access | No (gitignored) |
-| `gmail_token.json` | Auth token (auto-created) | No (gitignored) |
-| `life_organizer.db` | Local database | No (gitignored) |
+Save these commands somewhere handy:
+
+| What you want to do | Command |
+|---------------------|---------|
+| Open project folder | `cd ~/Development/life-organizer` |
+| Activate Python | `source venv/bin/activate` |
+| Preview emails | `python dry_run.py 50 30` |
+| Check iMessages | `python imessage_parser.py --days=14` |
+| Run nightly job | `python nightly.py` |
+| Get help | `claude` |
+
+---
+
+## Need Help?
+
+1. **First choice:** Run `claude` in the project folder and ask for help
+2. **Second choice:** Text Matt
+
+Good luck! 🚀
